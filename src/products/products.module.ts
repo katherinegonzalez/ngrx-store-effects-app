@@ -13,6 +13,9 @@ import * as fromComponents from './components';
 // containers
 import * as fromContainers from './containers';
 
+// guards
+import * as fromGuards from './guards';
+
 // services
 import * as fromServices from './services';
 
@@ -22,6 +25,7 @@ import { reducers, effects } from './store';
 export const ROUTES: Routes = [
   {
     path: '',
+    canActivate: [fromGuards.PizzasGuard],
     component: fromContainers.ProductsComponent,
   },
   {
@@ -30,6 +34,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'new',
+    canActivate: [fromGuards.PizzasGuard],
     component: fromContainers.ProductItemComponent,
   },
 ];
@@ -43,7 +48,7 @@ export const ROUTES: Routes = [
     StoreModule.forFeature('products', reducers),
     EffectsModule.forFeature(effects)
   ],
-  providers: [...fromServices.services],
+  providers: [...fromServices.services, fromGuards.PizzasGuard],
   declarations: [...fromContainers.containers, ...fromComponents.components],
   exports: [...fromContainers.containers, ...fromComponents.components],
 })
